@@ -6,28 +6,23 @@
 */
 
 #include "../include/my.h"
+#include <stdio.h>
 
-int can_shoot(int shoot)
+int score_change(int death, int score)
 {
-    int nb = 0;
-    if (sfMouse_isButtonPressed(sfMouseLeft))
-        if (shoot == 0)
-            nb = 1;
-    return nb;
-}
-
-void pmm(sfRenderWindow *window, int shoot)
-{
-    int p_re, p_shoot, p_shd;
-    sfSprite *pm[3] = {set_ss(ss, p_rep), set_ss(ss, p_shot),
-    set_ss(ss, p_shoted)};
-    if (shoot <= (nb_fps) && shoot >= ((0.75 * nb_fps) + 1))
-        sfRenderWindow_drawSprite(window, pm[1], NULL);
-    if (shoot <= (0.75 * nb_fps) && shoot >= (0.5 * nb_fps))
-        sfRenderWindow_drawSprite(window, pm[2], NULL);
-    if (shoot < (0.5 * nb_fps) && shoot >= 0) {
-        sfRenderWindow_drawSprite(window, pm[0], NULL);
+    if (death == 2) {
+        score -= 100;
+        printf("You killed a civilian, score : %d\n", score);
     }
+    if (death == 1) {
+        score += 10;
+        printf("You killed a Thief, score : %d\n", score);
+    }
+    if ((death - 4) == 2 || (death - 4) == 5 || (death - 4) == 8) {
+        score -= 100;
+        printf("A thief escaped, score : %d\n", score);
+    }
+    return score;
 }
 
 int evt_hdl(sfRenderWindow *window, sfEvent event, sfSprite *cs, int st)
@@ -40,7 +35,7 @@ int evt_hdl(sfRenderWindow *window, sfEvent event, sfSprite *cs, int st)
         if (buffer == 1)
             st = nb_fps;
         if (event.type == sfEvtMouseMoved) {
-            sfVector2i pos_mouse = sfMouse_getPosition(window);
+            sfVector2i pos_mouse = sfMouse_getPositionRenderWindow(window);
             sfVector2f posi_mouse;
             posi_mouse.x = pos_mouse.x - 25;
             posi_mouse.y = pos_mouse.y - 25;
@@ -52,7 +47,7 @@ int evt_hdl(sfRenderWindow *window, sfEvent event, sfSprite *cs, int st)
 
 void game(sfRenderWindow *window, sfEvent event)
 {
-    int nb_frames = 0, shoot = 0, pos_cursor, pos_game_bg;
+    int nb_frames = 0, shoot = 0, pos_cursor, pos_game_bg, dth = 0, sc = 0;
     sfSprite *mobs[9][2], *cursor = set_ss(ss, p_cursor);
     sfSprite *ga_bg = set_sprite(game_bg, p_game_bg);
     sfRenderWindow_setMouseCursorVisible(window, sfFalse);
@@ -63,13 +58,13 @@ void game(sfRenderWindow *window, sfEvent event)
         sfRenderWindow_drawSprite(window, ga_bg, NULL);
         if (nb_frames % nb_fps == 0)
             spawn_mob(mobs, nb_frames);
-        mob_deplacement(mobs, nb_frames);
+        dth = mob_deplacement(mobs, nb_frames, window);
+        sc = score_change(dth, sc);
         d_mobs(mobs, nb_frames, window);
         pmm(window, shoot);
         sfRenderWindow_drawSprite(window, cursor, NULL);
         sfRenderWindow_display(window);
         nb_frames++;
-        if (shoot > 0)
-            shoot--;
+        if (shoot > 0) shoot--;
     }
 }

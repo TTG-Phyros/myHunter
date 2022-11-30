@@ -44,17 +44,12 @@
     #define main_bg "./content/fond_3.png"
     #define game_bg "./content/game_bg.png"
     #define ss "./content/sprite_sheet_hunter.png"
-    #define voleur "./content/voleur.png"
-    #define civilian_ma "./content/civilian_ma.png"
-    #define civilian_fe "./content/civilian_fe.png"
 
     // * main.c
     void if_click(sfRenderWindow *window, sfEvent event);
-    int main(void);
+    int main(int argc, char **argv);
 
     // * game.c
-    //void spawn_mob(int nb);
-    int can_shoot(int shoot);
     void game(sfRenderWindow *window, sfEvent event);
 
     // * display_functions.c
@@ -64,12 +59,25 @@
 
     // * mobs.c
     int mob_initialization(sfSprite *mobs[9][2]);
-    int mob_deplacement(sfSprite *mobs[9][2], int nb_frames);
+    int mob_deplacement(sfSprite *mobs[9][2], int nb_fr, sfRenderWindow *win);
     int spawn_mob(sfSprite *mobs[9][2], int nb_frames);
     void d_mobs(sfSprite *mobs[9][2], int nb_frames, sfRenderWindow *window);
 
     // * settings.c
     void settings(sfRenderWindow *window, sfEvent event);
     void scoreboard(sfRenderWindow *window, sfEvent event);
+
+    // * policeman.c
+    int can_shoot(int shoot);
+    void pmm(sfRenderWindow *window, int shoot);
+
+    // * flag_h.c
+    int flag_h(int argc, char **argv);
+    void flag_h_second(void);
+
+    // * mob_death.c
+    int mob_death_sec(int mob_nb);
+    int mob_death(sfRenderWindow *window, sfSprite *mob, int mob_nb);
+
 
 #endif

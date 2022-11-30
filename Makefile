@@ -15,6 +15,9 @@ SRC		=		./src/main.c					\
 				./src/mobs.c					\
 				./src/settings.c				\
 				./src/scoreboard.c				\
+				./src/policeman.c				\
+				./src/flag_h.c					\
+				./src/mob_death.c				\
 
 OBJ		=		$(SRC:.c=.o)
 

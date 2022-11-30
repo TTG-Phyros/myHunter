@@ -27,7 +27,7 @@ void redirect(sfRenderWindow *window, sfEvent event, int choice)
 void if_click(sfRenderWindow *window, sfEvent event)
 {
     int pos_sbu, pos_se, pos_sc;
-    sfVector2i mouse = sfMouse_getPosition(window);
+    sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
     if (mouse.x >= pos_but[0] && mouse.x <= pos_but[0] + 510) {
         if (mouse.y >= pos_but[1] && mouse.y <= pos_but[1] + 125) {
             redirect(window, event, 1);
@@ -53,17 +53,21 @@ void close_event(sfRenderWindow *window, sfEvent event)
 
 void draw(sfRenderWindow *win, sfSprite *bg, sfSprite *bu[2], sfText **txt)
 {
+    sfRenderWindow_clear(win, sfBlack);
     sfRenderWindow_drawSprite(win, bg, NULL);
     sfRenderWindow_drawSprite(win, bu[0], NULL);
     sfRenderWindow_drawSprite(win, bu[1], NULL);
     sfRenderWindow_drawText(win, txt[0], NULL);
     sfRenderWindow_drawText(win, txt[1], NULL);
+    sfRenderWindow_display(win);
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
     int di_w, pos_ti, pos_bg, pos_se, pos_sc, pos_sbu;
     videomode;
+    if (flag_h(argc, argv) == 1)
+        return 0;
     sfText *txt[2] = {text(game_font, pos_tit, game_name, sfBlack),
     text(game_font, pos_but, bu_text, sfBlack)};
     sfRenderWindow *win = sfRenderWindow_create(md, game_name, sfClose, NULL);
@@ -75,9 +79,7 @@ int main(void)
         while (sfRenderWindow_pollEvent(win, &event)) {
             close_event(win, event);
         }
-        sfRenderWindow_clear(win, sfBlack);
         draw(win, sprite_bg, bu, txt);
-        sfRenderWindow_display(win);
         if_click(win, event);
     }
     return 0;
