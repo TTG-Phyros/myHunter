@@ -26,25 +26,25 @@ int mob_initialization(sfSprite *mobs[9][2])
     return 0;
 }
 
-int mob_deplacement(sfSprite *mobs[9][2], int nb_fr, sfRenderWindow *win)
+int mob_dplc(sfSprite *mob[9][2], int n_fr, sfRenderWindow *win, int sh)
 {
     int i = 0, anim = 0, death = 0, buffer = 0;
-    if ((nb_fr / 50) % 2 == 0) anim = 1;
+    if ((n_fr / 30) % 2 == 0) anim = 1;
     for (; i != 9; i++) {
-        sfVector2f pos = sfSprite_getPosition(mobs[i][anim]);
+        sfVector2f pos = sfSprite_getPosition(mob[i][anim]);
         if (pos.y < -200) {
             pos.y = 1000;
             buffer = 4 + i;
         }
         if (pos.y <= 850 && pos.y >= -200) pos.y -= 5;
-        sfSprite_setPosition(mobs[i][anim], pos);
-        sfSprite_setPosition(mobs[i][!anim], pos);
-        death = mob_death(win, mobs[i][0], i);
+        sfSprite_setPosition(mob[i][anim], pos);
+        sfSprite_setPosition(mob[i][!anim], pos);
+        death = mob_death(win, mob[i][0], i, sh);
         if (death != 0) buffer = death;
         if (death > 0) {
             pos.y = 1000;
-            sfSprite_setPosition(mobs[i][anim], pos);
-            sfSprite_setPosition(mobs[i][!anim], pos);
+            sfSprite_setPosition(mob[i][anim], pos);
+            sfSprite_setPosition(mob[i][!anim], pos);
         }
     }
     return buffer;
@@ -53,7 +53,7 @@ int mob_deplacement(sfSprite *mobs[9][2], int nb_fr, sfRenderWindow *win)
 int spawn_mob(sfSprite *mobs[9][2], int nb_frames)
 {
     int pos = (rand() % 3), skin = (rand() % 3), nb_mob, anim = 0;
-    if ((nb_frames / 50) % 2 == 0)
+    if ((nb_frames / 30) % 2 == 0)
         anim = 1;
     if (pos == 1)
         pos = 3;
@@ -77,7 +77,7 @@ void d_mobs(sfSprite *mobs[9][2], int nb_frames, sfRenderWindow *window)
 {
     int i = 0, anim = 0;
     while (i != 9) {
-        if ((nb_frames / 50) % 2 == 0)
+        if ((nb_frames / 30) % 2 == 0)
             anim = 1;
         sfRenderWindow_drawSprite(window, mobs[i][anim], NULL);
         i++;
