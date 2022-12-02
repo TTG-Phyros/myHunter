@@ -6,7 +6,6 @@
 */
 
 #include "../include/my.h"
-#include <stdio.h>
 
 int mob_initialization(sfSprite *mobs[9][2])
 {

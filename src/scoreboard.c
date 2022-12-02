@@ -6,7 +6,6 @@
 */
 
 #include "../include/my.h"
-#include <stdio.h>
 
 int score_change_sec(int score, int death, sfText *sc)
 {

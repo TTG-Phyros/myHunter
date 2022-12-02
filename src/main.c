@@ -6,7 +6,6 @@
 */
 
 #include "../include/my.h"
-#include <stdio.h>
 
 void redirect(sfRenderWindow *window, sfEvent event, int choice)
 {
