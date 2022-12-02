@@ -6,6 +6,7 @@
 */
 
 #include "../include/my.h"
+#include <stdio.h>
 
 int mob_initialization(sfSprite *mobs[9][2])
 {
@@ -50,15 +51,16 @@ int mob_dplc(sfSprite *mob[9][2], int n_fr, sfRenderWindow *win, int sh)
     return buffer;
 }
 
-int spawn_mob(sfSprite *mobs[9][2], int nb_frames)
+int spawn_mob(sfSprite *mobs[9][2], int nb_frames, int sc)
 {
-    int pos = (rand() % 3), skin = (rand() % 3), nb_mob, anim = 0;
+    int pos = (rand() % 3), skin = (rand() % (3 + sc / 100)), nb_mob, anim = 0;
     if ((nb_frames / 30) % 2 == 0)
         anim = 1;
     if (pos == 1)
         pos = 3;
     if (pos == 2)
         pos = 6;
+    if (skin > 2) skin = 2;
     nb_mob = pos + skin;
     sfVector2f posi = sfSprite_getPosition(mobs[nb_mob][anim]);
     while (posi.y < 1000) {

@@ -88,7 +88,7 @@
     // * mobs.c
     int mob_initialization(sfSprite *mobs[9][2]);
     int mob_dplc(sfSprite *mob[9][2], int n_fr, sfRenderWindow *win, int sh);
-    int spawn_mob(sfSprite *mobs[9][2], int nb_frames);
+    int spawn_mob(sfSprite *mobs[9][2], int nb_frames, int sc);
     void d_mobs(sfSprite *mobs[9][2], int nb_frames, sfRenderWindow *window);
 
     // * music.c

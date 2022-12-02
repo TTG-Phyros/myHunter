@@ -9,19 +9,21 @@
 
 void game_over(sfRenderWindow *window, int score)
 {
-    int i = 200, game_ove, peak_scor;
-    char *dest = malloc((my_intlen(score) + 14) * sizeof(char));
-    merge_int_str("Peak Score : ", dest, score);
-    sfRenderWindow_clear(window, sfBlack);
-    sfText *game_is_over = text(game_font, game_ov, "Game Over", sfRed);
-    if (score == 0)
-        dest = "Peak Score : 0";
-    sfText *scor = text(game_font, p_sco, dest, sfRed);
-    sfRenderWindow_drawText(window, game_is_over, NULL);
-    sfRenderWindow_drawText(window, scor, NULL);
-    while (i != 0) {
-        sfRenderWindow_display(window);
-        i--;
+    if (score < 0) {
+        int i = 200, game_ove, peak_scor;
+        char *dest = malloc((my_intlen(score) + 14) * sizeof(char));
+        merge_int_str("Peak Score : ", dest, score);
+        sfRenderWindow_clear(window, sfBlack);
+        sfText *game_is_over = text(game_font, game_ov, "Game Over", sfRed);
+        if (score == 0)
+            dest = "Peak Score : 0";
+        sfText *scor = text(game_font, p_sco, dest, sfRed);
+        sfRenderWindow_drawText(window, game_is_over, NULL);
+        sfRenderWindow_drawText(window, scor, NULL);
+        while (i != 0) {
+            sfRenderWindow_display(window);
+            i--;
+        }
     }
 }
 
@@ -69,7 +71,7 @@ void game(sfRenderWindow *window, sfEvent event)
         shoot = evt_hdl(window, event, shoot, cursor);
         sfRenderWindow_clear(window, sfBlack);
         sfRenderWindow_drawSprite(window, env[0], NULL);
-        if (nb_fr % nb_fps == 0) spawn_mob(mobs, nb_fr);
+        if (nb_fr % nb_fps == 0) spawn_mob(mobs, nb_fr, sc);
         dth = mob_dplc(mobs, nb_fr, window, shoot);
         sc = score_change(dth, sc, score);
         if (sc > psc) psc = sc;
