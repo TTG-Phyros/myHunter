@@ -11,8 +11,14 @@ int can_shoot(int shoot)
 {
     int nb = 0;
     if (sfMouse_isButtonPressed(sfMouseLeft))
-        if (shoot == 0)
+        if (shoot == 0) {
+            sfSound * shootin = sfSound_create();
+            sfSoundBuffer * shoot_s = sfSoundBuffer_createFromFile(p_sound);
+            sfSound_setBuffer(shootin, shoot_s);
+            sfSound_setVolume(shootin, 35);
+            sfSound_play(shootin);
             nb = 1;
+        }
     return nb;
 }
 

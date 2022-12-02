@@ -45,10 +45,13 @@ void if_click(sfRenderWindow *window, sfEvent event)
     }
 }
 
-void close_event(sfRenderWindow *window, sfEvent event)
+int close_event(sfRenderWindow *window, sfEvent event)
 {
-    if (event.type == sfEvtClosed)
+    if (event.type == sfEvtClosed) {
         sfRenderWindow_close(window);
+        return 1;
+    }
+    return 0;
 }
 
 void draw(sfRenderWindow *win, sfSprite *bg, sfSprite *bu[2], sfText **txt)
@@ -65,20 +68,21 @@ void draw(sfRenderWindow *win, sfSprite *bg, sfSprite *bu[2], sfText **txt)
 int main(int argc, char **argv)
 {
     int di_w, pos_ti, pos_bg, pos_se, pos_sc, pos_sbu;
-    videomode;
-    if (flag_h(argc, argv) == 1)
-        return 0;
+    char mus; float v_mus; videomode;
+    if (flag_h(argc, argv) == 1) return 0;
     sfText *txt[2] = {text(game_font, pos_tit, game_name, sfBlack),
     text(game_font, pos_but, bu_text, sfBlack)};
     sfRenderWindow *win = sfRenderWindow_create(md, game_name, sfClose, NULL);
     sfEvent event;
+    sfMusic *music = music_create(musics, volume_mus);
     sfSprite *sprite_bg = set_sprite(main_bg, p_bg);
     sfSprite *bu[2] = {set_ss(ss, p_se), set_ss(ss, p_sc)};
     sfRenderWindow_setFramerateLimit(win, nb_fps);
+    play_music(music);
     while (sfRenderWindow_isOpen(win)) {
-        while (sfRenderWindow_pollEvent(win, &event)) {
+        sfRenderWindow_setMouseCursorVisible(win, sfTrue);
+        while (sfRenderWindow_pollEvent(win, &event))
             close_event(win, event);
-        }
         draw(win, sprite_bg, bu, txt);
         if_click(win, event);
     }

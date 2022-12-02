@@ -7,7 +7,7 @@
 
 #include "../include/my.h"
 
-sfSprite *set_sprite_float(char *filepath, float pos[2][2])
+sfSprite *ssf(char *filepath, float pos[2][2])
 {
     sfTexture *texture_sprite;
     sfVector2f pos_sprite = {pos[0][0], pos[0][1]};

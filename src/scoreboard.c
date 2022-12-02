@@ -6,49 +6,62 @@
 */
 
 #include "../include/my.h"
+#include <stdio.h>
 
-int score_change(sfRenderWindow *window, int death, int score, sfText *sc)
+int score_change_sec(int score, int death, sfText *sc)
 {
-    if (death == 2)
+    int buffer = score;
+    char *dest = malloc((my_intlen(score) + 8) * sizeof(char));
+    if (death == 2 || death == 3) {
         score -= 100;
-    if (death == 1)
+        if (score > 0)
+            merge_int_str("Score : ", dest, score);
+    }
+    if (death == 1) {
         score += 10;
-    if ((death - 4) == 2 || (death - 4) == 5 || (death - 4) == 8)
+        if (score > 0)
+            merge_int_str("Score : ", dest, score);
+    }
+    if ((death - 4) == 2 || (death - 4) == 5 || (death - 4) == 8) {
         score -= 100;
-    if (score > 0) {
-        char *dest = malloc((my_intlen(score) + 8) * sizeof(char));
-        merge_int_str("Score : ", dest, score);
-        sfText_setString(sc, dest);
-        free(dest);
+        if (score > 0)
+            merge_int_str("Score : ", dest, score);
     }
-    if (score == 0) {
-        sfText_setString(sc, "Score : 0");
-    }
-    if (score < 0) {
-        sfRenderWindow_close(window);
-        return -1;
-    }
+    if (score > 0 && buffer != score) sfText_setString(sc, dest);
+    free(dest);
     return score;
 }
 
-int evt_hdl(sfRenderWindow *window, sfEvent event, sfSprite *cs, int st)
+void death_sound(int death)
 {
-    int buffer;
-    while (sfRenderWindow_pollEvent(window, &event)) {
-        if (event.type == sfEvtClosed)
-            sfRenderWindow_close(window);
-        buffer = can_shoot(st);
-        if (buffer == 1)
-            st = nb_fps;
-        if (event.type == sfEvtMouseMoved) {
-            sfVector2i pos_mouse = sfMouse_getPositionRenderWindow(window);
-            sfVector2f posi_mouse;
-            posi_mouse.x = pos_mouse.x - 25;
-            posi_mouse.y = pos_mouse.y - 25;
-            sfSprite_setPosition(cs, posi_mouse);
-        }
+    sfSound *sound_cho = sfSound_create();
+    sfSoundBuffer *buffer_ma = sfSoundBuffer_createFromFile(ma_cho);
+    sfSoundBuffer *buffer_fe = sfSoundBuffer_createFromFile(fe_cho);
+    sfSoundBuffer *buffer_th = sfSoundBuffer_createFromFile(th_cho);
+    sfSound_setVolume(sound_cho, 35);
+    if (death == 3) {
+        sfSound_setBuffer(sound_cho, buffer_ma);
+        sfSound_play(sound_cho);
     }
-    return st;
+    if (death == 2) {
+        sfSound_setBuffer(sound_cho, buffer_fe);
+        sfSound_play(sound_cho);
+    }
+    if (death == 1) {
+        sfSound_setBuffer(sound_cho, buffer_th);
+        sfSound_play(sound_cho);
+    }
+}
+
+int score_change(int death, int score, sfText *sc)
+{
+    if (death > 0)
+        death_sound(death);
+    score = score_change_sec(score, death, sc);
+    if (score == 0) {
+        sfText_setString(sc, "Score : 0");
+    }
+    return score;
 }
 
 int evt_handler(sfRenderWindow *window, sfEvent evt)

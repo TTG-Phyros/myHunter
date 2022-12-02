@@ -7,6 +7,21 @@
 
 #include "../include/my.h"
 
+void flag_h_third(void)
+{
+    write(1, "=================================\n", 35);
+    write(1, "|                      Possibles ", 34);
+    write(1, "arguments :                     |\n", 35);
+    write(1, "|                                ", 34);
+    write(1, "                                |\n", 35);
+    write(1, "|                          -h (for ", 36);
+    write(1, "help)                         |\n", 33);
+    write(1, "|                  Nothing (to launch", 38);
+    write(1, " the game)                  |\n", 31);
+    write(1, "=================================", 34);
+    write(1, "=================================\n", 35);
+}
+
 void flag_h_second(void)
 {
     write(1, "                                |\n", 35);
@@ -43,7 +58,7 @@ int flag_h(int argc, char **argv)
             write(1, "|                           My ", 32);
             write(1, "Hunter                            |\n", 37);
             write(1, "=================================", 34);
-            write(1, "=================================\n", 35);
+            flag_h_third();
             write(1, "|                       File ", 30);
             write(1, "Description :                       |\n", 39);
             write(1, "|                                ", 34);

@@ -6,6 +6,7 @@
 */
 
 #include "../include/my.h"
+#include <stdio.h>
 
 int my_strlen(char const *str)
 {
@@ -31,18 +32,23 @@ int my_intlen(int nb)
 char *merge_int_str(char *str, char *dest, int nb)
 {
     int str_l = my_strlen(str), i = 0, int_l = my_intlen(nb), num = 0, j = 0;
+    int diviseur;
     while (i != str_l) {
         dest[i] = str[i];
         i++;
     }
-    nb = nb / 10;
     while (j != int_l) {
-        num = nb % 10;
+        diviseur = 1;
+        while (my_intlen(diviseur) < my_intlen(nb))
+            diviseur *= 10;
+        if (my_intlen(nb) == 2)
+            num = 0;
+        else
+            num = nb / diviseur;
         dest[i] = (num + '0');
-        nb = nb / 10;
-        j++;
-        i++;
+        nb -= (nb / diviseur) * diviseur;
+        j++; i++;
     }
-    dest [i - 1] = '\0';
+    dest[i - 1] = '\0';
     return dest;
 }

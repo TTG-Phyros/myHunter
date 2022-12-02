@@ -19,6 +19,7 @@ SRC		=		./src/main.c					\
 				./src/flag_h.c					\
 				./src/mob_death.c				\
 				./src/transformations.c 		\
+				./src/music.c					\
 
 OBJ		=		$(SRC:.c=.o)
 

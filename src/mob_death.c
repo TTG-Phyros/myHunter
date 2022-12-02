@@ -10,11 +10,12 @@
 int mob_death_sec(int mob_nb, int shoot)
 {
     if (sfMouse_isButtonPressed(sfMouseLeft) && shoot == nb_fps) {
-        if (mob_nb == 2 || mob_nb == 5 || mob_nb == 8) {
+        if (mob_nb == 2 || mob_nb == 5 || mob_nb == 8)
             return 1;
-        } else {
+        if (mob_nb == 0 || mob_nb == 3 || mob_nb == 6)
             return 2;
-        }
+        if (mob_nb == 1 || mob_nb == 4 || mob_nb == 7)
+            return 3;
     }
     return 0;
 }
