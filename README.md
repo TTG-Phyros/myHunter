@@ -19,7 +19,6 @@ Le joueur doit donc être rapide et précis pour accumuler le plus de points pos
 ## 🕹️ Contrôles
 
 - **Clic gauche** : Tirer
-- **Touches directionnelles** : Déplacer le policier (ajuster en fonction des mécanismes réels de ton jeu si nécessaire)
 
 ## 📈 Système de Score
 
